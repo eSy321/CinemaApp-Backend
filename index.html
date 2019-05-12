@@ -1,0 +1,77 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+    </body>
+    <script type="text/javascript">
+        var movies = [];
+
+        const whenGetIntoRepertoire = async () => {
+
+            /** take all the movies from db */
+            await fetch('https://cinemapwr.herokuapp.com/api/movies', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+            })
+            .then(res => res.text())
+            .then(res => {
+                movies = JSON.parse(res);
+            })
+            .catch(err => console.log(err))     
+            
+            console.log(movies[0]);
+
+            /** take movies from api*/
+            var data = {}
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = false;
+            xhr.open("GET", "https://api.themoviedb.org/3/discover/movie?page=1&include_video=false&include_adult=false&sort_by=popularity.desc&language=en-US&api_key=9958dde58ec7762bbe6dc9a53b425780");
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.send(data);
+
+            xhr.addEventListener("readystatechange", function (event) {
+                if (this.readyState === this.DONE) {
+                    data = JSON.parse(this.responseText);
+                    console.log(data.results);
+                }
+            });
+        };
+
+        whenGetIntoRepertoire();
+
+        /** update seats for the movie*/
+        const updateSeats = async () => {
+            /*  number is a some kind of index for the movie from MONGODB   */
+            /*  take number from chosen movie from MONGODB and compare it to the !! ARRAY INDEX !! from API   */
+            const seanceNumber = null;
+            
+            /*  chosen seats in binary TO STRING   */
+            const seats = "00011000";
+
+            /* PROBLEM bo update robi usuwając wszystkie inne godziny */
+            var seanceToUpdate = {
+                "seance":{
+                    "hour": [hourIndex] = hour,
+                    /* ex get into 12:30 and it has an index 3 in an array*/
+                    /* in seats array put new hour at index 3 */
+                    "seats": [hourIndex] = seats
+                }
+            }
+
+            /* update seance */
+            await fetch(`https://cinemapwr.herokuapp.com/api/movies/:${seanceNumber}`, {
+                method: "PUT",
+                body: JSON.stringify(seanceToUpdate),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(res => res.json())
+            .catch(err => console.log(err))
+            .then(res => console.log(`Success: ${JSON.stringify(res)}`));
+        }
+    </script>
+</html>
