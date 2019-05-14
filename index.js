@@ -6,6 +6,9 @@ const app = express()
 const movies = require('./routes/movies')
 const cors = require ("cors")
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+
+var email = 'kinocoderscamp@email.com'
 
 if (!config.get('jwtPrivateKey')) {  //VerySecureJWTKey
     console.error("FATAL ERROR: jwtPrivateKey is not defined.");

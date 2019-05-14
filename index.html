@@ -46,7 +46,7 @@
         const updateSeats = async () => {
             /*  number is a some kind of index for the movie from MONGODB   */
             /*  take number from chosen movie from MONGODB and compare it to the !! ARRAY INDEX !! from API   */
-            const seanceNumber = null;
+            const number = null;
             
             /*  chosen seats in binary TO STRING   */
             const seats = "00011000";
@@ -62,7 +62,7 @@
             }
 
             /* update seance */
-            await fetch(`https://cinemapwr.herokuapp.com/api/movies/:${seanceNumber}`, {
+            await fetch(`https://cinemapwr.herokuapp.com/api/movies/:${number}`, {
                 method: "PUT",
                 body: JSON.stringify(seanceToUpdate),
                 headers: {
