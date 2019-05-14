@@ -1,8 +1,17 @@
 const {Movies} = require('../models/movie');
 const auth = require('../middleware/auth');
+const nodemailer = require('nodemailer');
 // const valideteObjectnumber = require('../middleware/validateObjectnumber.js');
 const express = require("express")
 const router = express.Router()
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'kinocoderscamp@gmail.com',
+        pass: 'uczymysiereacta'
+    }
+});
 
 /** if get into /api/movies it returns you all the movies from the list */
 router.get('/', async (req, res) => {
@@ -21,6 +30,20 @@ router.put('/:seanceNumber', async (req, res) => {
             seats: req.body.seats
         }
     }));
+
+    const mailOptions = {
+        from: 'kinocoderscamp@gmail.com',
+        to: "kinocoderscamp@gmail.com",//`${req.body.email.value}`,
+        subject: 'POTWIERDZENIE REZERWACJI',
+        html: `<center><h1>Witaj ${req.body.name.value}, oto potwierdzenie rezerwacji.</h1><h3>Rezerwacja dotyczy seansu: {req.body.seance}, miejsce: (tu miejsce)</h3><p>Email został wygenerowany automatycznie</p><img src="http://www.salemtwincinema.com/images/footer-icons.gif"</img></center>`
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err)
+            console.log(err)
+        else
+            console.log(info);
+    });
         
     res.send(movie);
 });
