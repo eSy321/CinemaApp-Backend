@@ -33,9 +33,9 @@ router.put('/:seanceNumber', async (req, res) => {
 
     const mailOptions = {
         from: 'kinocoderscamp@gmail.com',
-        to: "kinocoderscamp@gmail.com",//`${req.body.email.value}`,
+        to: `${req.body.email}`,
         subject: 'POTWIERDZENIE REZERWACJI',
-        html: `<center><h1>Witaj ${req.body.name.value}, oto potwierdzenie rezerwacji.</h1><h3>Rezerwacja dotyczy seansu: {req.body.seance}, miejsce: (tu miejsce)</h3><p>Email został wygenerowany automatycznie</p><img src="http://www.salemtwincinema.com/images/footer-icons.gif"</img></center>`
+        html: `<center><h1>Witaj ${req.body.name.value}, oto potwierdzenie rezerwacji.</h1><h3>Rezerwacja dotyczy seansu: {req.body.seance}</h3><p>Email został wygenerowany automatycznie</p><img src="http://www.salemtwincinema.com/images/footer-icons.gif"</img></center>`
     };
 
     transporter.sendMail(mailOptions, function (err, info) {
